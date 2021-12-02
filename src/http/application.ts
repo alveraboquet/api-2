@@ -1,10 +1,7 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 
 import handlers from './request-handers';
-
-dotenv.config();
 
 const HOST = process.env.HOST as string;
 const PORT = process.env.PORT as unknown as number;
