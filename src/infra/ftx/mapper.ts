@@ -2,7 +2,7 @@ import { FTXEntry, FTXResponse } from './api';
 
 export const mapFTXEntry = (entry: FTXEntry) => {
   return {
-    timestamp: new Date(entry.time * 1000),
+    timestamp: new Date(entry.time),
     open: entry.open,
     high: entry.high,
     low: entry.low,
