@@ -1,4 +1,4 @@
-interface CandleConstructor {
+interface Data {
   timestamp: Date;
   open: number;
   close: number;
@@ -13,11 +13,15 @@ export class Candle {
   public high: number;
   public low: number;
 
-  constructor(options: CandleConstructor) {
+  constructor(options: Data) {
     this.timestamp = options.timestamp;
     this.open = options.open;
     this.close = options.close;
     this.high = options.high;
     this.low = options.low;
   }
+
+  static fromArray = (data: Data[]): Candle[] => {
+    return data.map((entry) => new Candle(entry));
+  };
 }
