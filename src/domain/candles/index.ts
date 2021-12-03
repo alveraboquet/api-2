@@ -21,7 +21,7 @@ export class Candle {
     this.low = options.low;
   }
 
-  static fromArray = (data: Data[]): Candle[] => {
+  public static fromArray = (data: Data[]): Candle[] => {
     return data.map((entry) => new Candle(entry));
   };
 }
