@@ -1,5 +1,5 @@
 interface CandleConstructor {
-  timestamp: number;
+  timestamp: Date;
   open: number;
   close: number;
   high: number;
@@ -7,7 +7,7 @@ interface CandleConstructor {
 }
 
 export class Candle {
-  public timestamp: number;
+  public timestamp: Date;
   public open: number;
   public close: number;
   public high: number;
