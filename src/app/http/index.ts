@@ -19,6 +19,7 @@ const app = express();
 app.use(cors());
 
 app.get('/', handlers.root);
+app.get('/candles/:pair', handlers.candles);
 
 app.listen(PORT, HOST, () => {
   console.log(`Started server on http://${HOST}:${PORT} 🚀`);
