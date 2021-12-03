@@ -7,7 +7,7 @@ interface FetchCandlesOptions {
   endTime: Date;
 }
 
-type Entry = {
+export type FTXEntry = {
   time: number;
   open: number;
   high: number;
@@ -15,11 +15,11 @@ type Entry = {
   close: number;
 };
 
-type Response = Array<Entry>;
+export type FTXResponse = Array<FTXEntry>;
 
 const fetchCandles = async (
   options: FetchCandlesOptions,
-): Promise<Response> => {
+): Promise<FTXResponse> => {
   const startTime = Math.round(options.startTime.getTime() / 1000);
   const endTime = Math.round(options.endTime.getTime() / 1000);
   const pair = `${options.base}/${options.quote}`.toLowerCase();
@@ -31,7 +31,7 @@ const fetchCandles = async (
 
     const data = (await response.json()) as {
       success: boolean;
-      result: Entry[];
+      result: FTXEntry[];
     };
     if (data.success) {
       return data.result;
