@@ -45,6 +45,8 @@ const fetchCandles = async (
   return [];
 };
 
-export const FTXAPI = {
+const FTXAPI = {
   fetchCandles,
 };
+
+export default FTXAPI;
