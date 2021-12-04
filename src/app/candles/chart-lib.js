@@ -26,7 +26,7 @@ export default class CandlestickChart {
 
     this.marginLeft = 26;
     this.marginRight = 120;
-    this.marginTop = 70;
+    this.marginTop = 100;
     this.marginBottom = 70;
 
     this.yStart = 0;
@@ -203,16 +203,17 @@ export default class CandlestickChart {
       );
     }
 
-    this.context.fillStyle = this.textColor;
+    this.context.fillStyle = '#000';
+    this.context.fillRect(0, 0, this.width, 58);
+    this.context.fillStyle = '#fff9f4';
     this.context.fillText(this.title, 20, 35);
 
-    this.context.fillStyle = `${this.textColor}33`;
-    // const copyText = 'jinx.capital';
-    // this.context.fillText(
-    //   copyText,
-    //   this.width - this.context.measureText(copyText).width - 20,
-    //   35,
-    // );
+    const copyText = 'jinx.capital';
+    this.context.fillText(
+      copyText,
+      this.width - this.context.measureText(copyText).width - 20,
+      35,
+    );
 
     const lastCandle = this.candlesticks[this.candlesticks.length - 1];
     let percent =
@@ -221,7 +222,7 @@ export default class CandlestickChart {
       ) / 100;
 
     const titleWidth = this.context.measureText(this.title).width + 20;
-    this.context.fillStyle = this.textColor;
+    this.context.fillStyle = '#fff9f4';
     this.context.fillText(
       ` ${percent > 0 ? '+' : ''}${percent.toFixed(2)}%`,
       titleWidth,
