@@ -9,9 +9,9 @@ import CoinbaseAPI, {
 export const mapCoinbaseEntry = (entry: CoinbaseEntry) => {
   return {
     timestamp: fromUnixTime(entry[0]),
-    open: entry[1] as number,
+    open: entry[3] as number,
     high: entry[2] as number,
-    low: entry[3] as number,
+    low: entry[1] as number,
     close: entry[4] as number,
   };
 };
