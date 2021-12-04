@@ -29,6 +29,7 @@ ENV PORT=$PORT
 
 EXPOSE $PORT
 
+COPY ./assets /code/assets
 COPY --from=0 /code/dist /code
 COPY --from=1 /code/node_modules /code/node_modules
 
