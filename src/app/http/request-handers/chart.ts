@@ -1,7 +1,18 @@
+import BinanceRepository from 'app/candles/binance-repository';
 import CandlestickChart from 'app/candles/chart-lib';
 import CoinbaseRepository from 'app/candles/coinbase-repository';
+import FTXRepository from 'app/candles/ftx-repository';
+import KucoinRepository from 'app/candles/kucoin-repository';
 import { createCanvas } from 'canvas';
+import { Candle } from 'domain/candles';
 import { Request, Response } from 'express';
+
+const repositories = [
+  { name: 'Coinbase', repository: CoinbaseRepository },
+  { name: 'FTX', repository: FTXRepository },
+  { name: 'Binance', repository: BinanceRepository },
+  { name: 'Kucoin', repository: KucoinRepository },
+];
 
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
@@ -20,12 +31,23 @@ export default async (req: Request, res: Response) => {
     return res.sendStatus(400);
   }
 
-  const candles = await CoinbaseRepository.getCandles({
-    base,
-    quote,
-    limit: 72,
-    resolution: 3600,
-  });
+  let exchange = '';
+  const candles: Candle[] = [];
+  for (const { name, repository } of repositories) {
+    candles.push(
+      ...(await repository.getCandles({
+        base,
+        quote,
+        limit: 72,
+        resolution: 3600,
+      })),
+    );
+
+    if (candles.length) {
+      exchange = name;
+      break;
+    }
+  }
 
   if (candles.length === 0) {
     return res.sendStatus(404);
@@ -33,7 +55,7 @@ export default async (req: Request, res: Response) => {
 
   const canvas = createCanvas(1280, 720);
   const chart = new CandlestickChart(canvas, {
-    title: `Coinbase ${`${base}/${quote}`.toUpperCase()} 1H`,
+    title: `${exchange} ${`${base}/${quote}`.toUpperCase()} 1H`,
   });
   for (const candle of candles) {
     chart.addCandlestick(candle);
