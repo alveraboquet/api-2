@@ -207,12 +207,12 @@ export default class CandlestickChart {
     this.context.fillText(this.title, 20, 35);
 
     this.context.fillStyle = `${this.textColor}33`;
-    // const copyText = 'test';
-    // this.context.fillText(
-    //   copyText,
-    //   this.width - this.context.measureText(copyText).width - 20,
-    //   35,
-    // );
+    const copyText = 'jinx.capital';
+    this.context.fillText(
+      copyText,
+      this.width - this.context.measureText(copyText).width - 20,
+      35,
+    );
 
     const lastCandle = this.candlesticks[this.candlesticks.length - 1];
     let percent =
