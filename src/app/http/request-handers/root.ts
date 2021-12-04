@@ -8,6 +8,8 @@ const SUPPORTED_EXCHANGES = [
   Exchange.Kucoin,
 ];
 
+const SUPPORTED_RESOLUTIONS = [900, 3600, 14400, 21600, 86400];
+
 export default (_req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
   res.status(200).json([
@@ -29,14 +31,20 @@ export default (_req: Request, res: Response) => {
           required: false,
           default: 48,
         },
+        resolution: {
+          type: 'number',
+          required: false,
+          default: 900,
+          values: SUPPORTED_RESOLUTIONS,
+        },
       },
       examples: [
         '/candles/btc:usd',
-        '/candles/eth:usdt',
-        '/candles/bnb:busd?exchange=binance',
-        '/candles/mana:usdc?exchange=coinbase',
-        '/candles/kcs:usdt?exchange=kucoin',
+        '/candles/eth:usdc?exchange=coinbase',
+        '/candles/bnb:busd?exchange=binance&limit=3',
+        '/candles/trx:usdt?exchange=kucoin&limit=3&resolution=3600',
       ],
+      note: 'Coinbase does not support the 14400 resolution and FTX does not support the 21600 resolution.',
     },
   ]);
 };

@@ -6,6 +6,7 @@ interface FetchCandlesOptions {
   base: string;
   startTime: Date;
   endTime: Date;
+  resolution: number;
 }
 
 export type FTXEntry = {
@@ -24,13 +25,14 @@ export type FTXResponse = {
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<FTXResponse | null> => {
+  const resolution = options.resolution;
   const startTime = getUnixTime(options.startTime);
   const endTime = getUnixTime(options.endTime);
   const pair = `${options.base}/${options.quote}`.toLowerCase();
 
   try {
     const response = await fetch(
-      `https://ftx.com/api/markets/${pair}/candles?resolution=3600&start_time=${startTime}&end_time=${endTime}`,
+      `https://ftx.com/api/markets/${pair}/candles?resolution=${resolution}&start_time=${startTime}&end_time=${endTime}`,
     );
 
     const json = (await response.json()) as FTXResponse;

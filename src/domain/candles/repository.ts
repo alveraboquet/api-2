@@ -4,6 +4,7 @@ export interface GetCandlesOptions {
   quote: string;
   base: string;
   limit: number;
+  resolution: number;
 }
 
 export interface CandleRepository {

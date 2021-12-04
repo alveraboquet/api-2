@@ -6,9 +6,10 @@ interface FetchCandlesOptions {
   base: string;
   startTime: Date;
   endTime: Date;
+  resolution: number;
 }
 
-// https://docs.kucoin.com/#get-trade-histories
+// https://docs.kucoin.com/#get-klines
 // [
 //  "1545904980",             //Start time of the candle cycle
 //  "0.058",                  //opening price
@@ -22,16 +23,25 @@ interface FetchCandlesOptions {
 export type KucoinEntry = Array<string>;
 export type KucoinResponse = { data: KucoinEntry[] };
 
+const resolutionMap: Record<number, string> = {
+  [900]: '15min',
+  [3600]: '1hour',
+  [14400]: '4hour',
+  [21600]: '6hour',
+  [86400]: '1day',
+};
+
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<KucoinResponse | null> => {
+  const type = resolutionMap[options.resolution];
   const startAt = getUnixTime(options.startTime);
   const endAt = getUnixTime(options.endTime);
   const symbol = `${options.base}-${options.quote}`.toUpperCase();
 
   try {
     const response = await fetch(
-      `https://api.kucoin.com/api/v1/market/candles?symbol=${symbol}&type=1hour&startAt=${startAt}&endAt=${endAt}`,
+      `https://api.kucoin.com/api/v1/market/candles?symbol=${symbol}&type=${type}&startAt=${startAt}&endAt=${endAt}`,
     );
 
     const json = (await response.json()) as KucoinResponse;

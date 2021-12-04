@@ -5,6 +5,7 @@ interface FetchCandlesOptions {
   base: string;
   startTime: Date;
   endTime: Date;
+  resolution: number;
 }
 
 // https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getproductcandles
@@ -23,13 +24,14 @@ export type CoinbaseResponse = CoinbaseEntry[];
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<CoinbaseResponse> => {
+  const granularity = options.resolution;
   const start = options.startTime.toISOString();
   const end = options.endTime.toISOString();
   const product = `${options.base}-${options.quote}`.toUpperCase();
 
   try {
     const response = await fetch(
-      `https://api.exchange.coinbase.com/products/${product}/candles?granularity=3600&start=${start}&end=${end}`,
+      `https://api.exchange.coinbase.com/products/${product}/candles?granularity=${granularity}&start=${start}&end=${end}`,
     );
 
     const json = (await response.json()) as CoinbaseResponse;

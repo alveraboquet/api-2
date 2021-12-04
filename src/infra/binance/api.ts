@@ -5,6 +5,7 @@ interface FetchCandlesOptions {
   base: string;
   startTime: Date;
   endTime: Date;
+  resolution: number;
 }
 
 // https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
@@ -26,16 +27,25 @@ interface FetchCandlesOptions {
 export type BinanceEntry = Array<string | number>;
 export type BinanceResponse = BinanceEntry[];
 
+const resolutionMap: Record<number, string> = {
+  [900]: '15m',
+  [3600]: '1h',
+  [14400]: '4h',
+  [21600]: '6h',
+  [86400]: '1d',
+};
+
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<BinanceResponse> => {
+  const interval = resolutionMap[options.resolution];
   const startTime = options.startTime.getTime();
   const endTime = options.endTime.getTime();
   const symbol = `${options.base}${options.quote}`.toUpperCase();
 
   try {
     const response = await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&startTime=${startTime}&endTime=${endTime}`,
+      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${endTime}`,
     );
 
     const json = (await response.json()) as BinanceResponse;

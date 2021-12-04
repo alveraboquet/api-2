@@ -13,6 +13,8 @@ const SUPPORTED_EXCHANGES = [
   Exchange.Kucoin,
 ];
 
+const SUPPORTED_RESOLUTIONS = [900, 3600, 14400, 21600, 86400];
+
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
 
@@ -23,6 +25,11 @@ export default async (req: Request, res: Response) => {
 
   const limit = parseInt(req.query.limit as string) || 48;
   if (!limit || isNaN(limit)) {
+    return res.status(400).json({ success: false, meta: {}, data: [] });
+  }
+
+  const resolution = parseInt(req.query.resolution as string) || 900;
+  if (!SUPPORTED_RESOLUTIONS.includes(resolution)) {
     return res.status(400).json({ success: false, meta: {}, data: [] });
   }
 
@@ -43,23 +50,43 @@ export default async (req: Request, res: Response) => {
   let candles: Candle[] = [];
   switch (exchange) {
     case Exchange.Binance:
-      candles = await BinanceRepository.getCandles({ base, quote, limit });
+      candles = await BinanceRepository.getCandles({
+        base,
+        quote,
+        limit,
+        resolution,
+      });
       break;
     case Exchange.Coinbase:
-      candles = await CoinbaseRepository.getCandles({ base, quote, limit });
+      candles = await CoinbaseRepository.getCandles({
+        base,
+        quote,
+        limit,
+        resolution,
+      });
       break;
     case Exchange.FTX:
-      candles = await FtxRepository.getCandles({ base, quote, limit });
+      candles = await FtxRepository.getCandles({
+        base,
+        quote,
+        limit,
+        resolution,
+      });
       break;
     case Exchange.Kucoin:
-      candles = await KucoinRepository.getCandles({ base, quote, limit });
+      candles = await KucoinRepository.getCandles({
+        base,
+        quote,
+        limit,
+        resolution,
+      });
       break;
   }
 
   if (candles.length === 0) {
     return res.status(404).json({
       success: false,
-      meta: { exchange, pair: { base, quote }, limit },
+      meta: { exchange, pair: { base, quote }, limit, resolution },
       data: [],
     });
   }
@@ -67,7 +94,7 @@ export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
   return res.status(200).json({
     success: true,
-    meta: { exchange, pair: { base, quote }, limit },
+    meta: { exchange, pair: { base, quote }, limit, resolution },
     data: candles,
   });
 };

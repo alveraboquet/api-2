@@ -1,4 +1,4 @@
-import { fromUnixTime, subHours } from 'date-fns';
+import { fromUnixTime, subDays, subHours, subMinutes } from 'date-fns';
 import { Candle } from 'domain/candles';
 import { CandleRepository, GetCandlesOptions } from 'domain/candles/repository';
 import CoinbaseAPI, {
@@ -21,15 +21,32 @@ export const mapCoinbaseResponse = (response: CoinbaseResponse) => {
 };
 
 class CoinbaseCandleRepository implements CandleRepository {
-  getCandles = async ({ base, quote, limit }: GetCandlesOptions) => {
+  getCandles = async ({
+    base,
+    quote,
+    limit,
+    resolution,
+  }: GetCandlesOptions) => {
     const endTime = new Date();
-    const startTime = subHours(endTime, limit);
+    let startTime = new Date();
+    if (resolution === 900) {
+      startTime = subMinutes(endTime, limit * 15);
+    } else if (resolution === 3600) {
+      startTime = subHours(endTime, limit);
+    } else if (resolution === 14400) {
+      startTime = subHours(endTime, limit * 4);
+    } else if (resolution === 21600) {
+      startTime = subHours(endTime, limit * 6);
+    } else if (resolution === 86400) {
+      startTime = subDays(endTime, limit);
+    }
 
     const data = await CoinbaseAPI.fetchCandles({
       base,
       quote,
       endTime,
       startTime,
+      resolution,
     });
 
     return Candle.fromArray(mapCoinbaseResponse(data));
