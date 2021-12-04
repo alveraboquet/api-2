@@ -1,3 +1,5 @@
+import { getUnixTime } from 'date-fns';
+
 interface Data {
   timestamp: Date;
   open: number;
@@ -20,6 +22,13 @@ export class Candle {
     this.high = options.high;
     this.low = options.low;
   }
+
+  public toJSON = () => {
+    return {
+      ...this,
+      timestamp: getUnixTime(this.timestamp),
+    };
+  };
 
   public static fromArray = (data: Data[]): Candle[] => {
     return data.map((entry) => new Candle(entry));
