@@ -16,11 +16,14 @@ export type FTXEntry = {
   close: number;
 };
 
-export type FTXResponse = FTXEntry[];
+export type FTXResponse = {
+  success: boolean;
+  result: FTXEntry[];
+};
 
 const fetchCandles = async (
   options: FetchCandlesOptions,
-): Promise<FTXResponse> => {
+): Promise<FTXResponse | null> => {
   const startTime = getUnixTime(options.startTime);
   const endTime = getUnixTime(options.endTime);
   const pair = `${options.base}/${options.quote}`.toLowerCase();
@@ -30,20 +33,17 @@ const fetchCandles = async (
       `https://ftx.com/api/markets/${pair}/candles?resolution=3600&start_time=${startTime}&end_time=${endTime}`,
     );
 
-    const data = (await response.json()) as {
-      success: boolean;
-      result: FTXEntry[];
-    };
-    if (data.success) {
-      return data.result;
+    const json = (await response.json()) as FTXResponse;
+    if (json.success) {
+      return json;
     }
   } catch (e) {
     console.error(`infra/ftx/api error:`, e);
 
-    return [];
+    return null;
   }
 
-  return [];
+  return null;
 };
 
 const FTXAPI = {

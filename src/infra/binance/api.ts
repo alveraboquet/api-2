@@ -38,9 +38,9 @@ const fetchCandles = async (
       `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&startTime=${startTime}&endTime=${endTime}`,
     );
 
-    const data = (await response.json()) as BinanceResponse;
-    if (Array.isArray(data) && data.length) {
-      return data;
+    const json = (await response.json()) as BinanceResponse;
+    if (Array.isArray(json)) {
+      return json;
     }
   } catch (e) {
     console.error(`infra/binance/api error:`, e);

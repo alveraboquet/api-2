@@ -10,6 +10,10 @@ export const mapFTXEntry = (entry: FTXEntry) => {
   };
 };
 
-export const mapFTXResponse = (response: FTXResponse) => {
-  return response.map(mapFTXEntry);
+export const mapFTXResponse = (response: FTXResponse | null) => {
+  if (!response?.result) {
+    return [];
+  }
+
+  return response.result.map(mapFTXEntry);
 };

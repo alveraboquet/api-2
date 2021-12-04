@@ -32,9 +32,9 @@ const fetchCandles = async (
       `https://api.exchange.coinbase.com/products/${product}/candles?granularity=3600&start=${start}&end=${end}`,
     );
 
-    const data = (await response.json()) as CoinbaseResponse;
-    if (Array.isArray(data) && data.length) {
-      return data;
+    const json = (await response.json()) as CoinbaseResponse;
+    if (Array.isArray(json)) {
+      return json;
     }
   } catch (e) {
     console.error(`infra/coinbase/api error:`, e);
