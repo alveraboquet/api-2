@@ -1,9 +1,10 @@
 import BinanceRepository from 'app/candles/binance-repository';
+import CoinbaseRepository from 'app/candles/coinbase-repository';
 import FtxRepository from 'app/candles/ftx-repository';
 import { Exchange } from 'domain/exchanges';
 import { Request, Response } from 'express';
 
-const SUPPORTED_EXCHANGES = [Exchange.Binance, Exchange.FTX];
+const SUPPORTED_EXCHANGES = [Exchange.Binance, Exchange.Coinbase, Exchange.FTX];
 
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
@@ -30,6 +31,9 @@ export default async (req: Request, res: Response) => {
       break;
     case Exchange.Binance:
       candles = await BinanceRepository.getCandles({ base, quote });
+      break;
+    case Exchange.Coinbase:
+      candles = await CoinbaseRepository.getCandles({ base, quote });
       break;
   }
 
