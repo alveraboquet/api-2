@@ -1,8 +1,25 @@
 import { subHours } from 'date-fns';
 import { Candle } from 'domain/candles';
 import { CandleRepository, GetCandlesOptions } from 'domain/candles/repository';
-import FTXAPI from 'infra/ftx/api';
-import { mapFTXResponse } from 'infra/ftx/mapper';
+import FTXAPI, { FTXEntry, FTXResponse } from 'infra/ftx/api';
+
+export const mapFTXEntry = (entry: FTXEntry) => {
+  return {
+    timestamp: new Date(entry.time),
+    open: entry.open as number,
+    high: entry.high as number,
+    low: entry.low as number,
+    close: entry.close as number,
+  };
+};
+
+export const mapFTXResponse = (response: FTXResponse | null) => {
+  if (!response?.result) {
+    return [];
+  }
+
+  return response.result.map(mapFTXEntry);
+};
 
 class FTXCandleRepository implements CandleRepository {
   getCandles = async ({ base, quote }: GetCandlesOptions) => {

@@ -1,8 +1,24 @@
-import { subHours } from 'date-fns';
+import { fromUnixTime, subHours } from 'date-fns';
 import { Candle } from 'domain/candles';
 import { CandleRepository, GetCandlesOptions } from 'domain/candles/repository';
-import CoinbaseAPI from 'infra/coinbase/api';
-import { mapCoinbaseResponse } from 'infra/coinbase/mapper';
+import CoinbaseAPI, {
+  CoinbaseEntry,
+  CoinbaseResponse,
+} from 'infra/coinbase/api';
+
+export const mapCoinbaseEntry = (entry: CoinbaseEntry) => {
+  return {
+    timestamp: fromUnixTime(entry[0]),
+    open: entry[1] as number,
+    high: entry[2] as number,
+    low: entry[3] as number,
+    close: entry[4] as number,
+  };
+};
+
+export const mapCoinbaseResponse = (response: CoinbaseResponse) => {
+  return response.reverse().map(mapCoinbaseEntry);
+};
 
 class CoinbaseCandleRepository implements CandleRepository {
   getCandles = async ({ base, quote }: GetCandlesOptions) => {
