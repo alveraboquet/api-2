@@ -26,7 +26,7 @@ export default (_req: Request, res: Response) => {
         '/candles/bnb:busd?exchange=binance',
         '/candles/mana:usdc?exchange=coinbase',
       ],
-      note: 'Only USD pairs are supported.',
+      note: 'Only USD (stablecoin) pairs are supported.',
     },
   ]);
 };
