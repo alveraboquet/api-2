@@ -27,14 +27,14 @@ export default async (req: Request, res: Response) => {
 
   let candles: Candle[] = [];
   switch (exchange) {
-    case Exchange.FTX:
-      candles = await FtxRepository.getCandles({ base, quote });
-      break;
     case Exchange.Binance:
       candles = await BinanceRepository.getCandles({ base, quote });
       break;
     case Exchange.Coinbase:
       candles = await CoinbaseRepository.getCandles({ base, quote });
+      break;
+    case Exchange.FTX:
+      candles = await FtxRepository.getCandles({ base, quote });
       break;
   }
 
