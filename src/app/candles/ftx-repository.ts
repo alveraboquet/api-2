@@ -16,9 +16,7 @@ class FTXCandleRepository implements CandleRepository {
       startTime,
     });
 
-    const candles = mapFTXResponse(data);
-
-    return Candle.fromArray(candles);
+    return Candle.fromArray(mapFTXResponse(data));
   };
 }
 
