@@ -16,6 +16,13 @@ export default async (req: Request, res: Response) => {
 
   const candles = await FtxRepository.getCandles({ base, quote });
 
+  if (candles.length === 0) {
+    return res.status(404).json({
+      success: false,
+      data: [],
+    });
+  }
+
   res.setHeader('Cache-Control', 'public, max-age=30');
   return res.status(200).json({
     success: true,
