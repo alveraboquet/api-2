@@ -36,7 +36,7 @@ export default async (req: Request, res: Response) => {
   if (candles.length === 0) {
     return res.status(404).json({
       success: false,
-      meta: { exchange },
+      meta: { exchange, pair: { base, quote } },
       data: [],
     });
   }
@@ -44,7 +44,7 @@ export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
   return res.status(200).json({
     success: true,
-    meta: { exchange },
+    meta: { exchange, pair: { base, quote } },
     data: candles,
   });
 };
