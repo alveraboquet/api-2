@@ -23,7 +23,7 @@ export default async (req: Request, res: Response) => {
   const candles = await CoinbaseRepository.getCandles({
     base,
     quote,
-    limit: 48,
+    limit: 72,
     resolution: 3600,
   });
 
