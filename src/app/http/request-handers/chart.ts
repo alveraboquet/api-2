@@ -1,4 +1,6 @@
+import CandlestickChart from 'app/candles/chart-lib';
 import CoinbaseRepository from 'app/candles/coinbase-repository';
+import { createCanvas } from 'canvas';
 import { Request, Response } from 'express';
 
 export default async (req: Request, res: Response) => {
@@ -29,8 +31,17 @@ export default async (req: Request, res: Response) => {
     return res.sendStatus(404);
   }
 
-  res.setHeader('Cache-Control', 'public, max-age=30');
-  return res.status(200).json({
-    success: true,
+  const canvas = createCanvas(1280, 720);
+  const chart = new CandlestickChart(canvas, {
+    title: `Coinbase ${`${base}/${quote}`.toUpperCase()} 1H`,
   });
+  for (const candle of candles) {
+    chart.addCandlestick(candle);
+  }
+  chart.draw();
+
+  res.setHeader('Content-Type', 'image/jpeg');
+  res.setHeader('Cache-Control', 'public, max-age=60, must-revalidate');
+  res.status(200);
+  canvas.createJPEGStream({ quality: 1, chromaSubsampling: false }).pipe(res);
 };
