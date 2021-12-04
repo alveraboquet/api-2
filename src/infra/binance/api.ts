@@ -1,0 +1,59 @@
+import { getUnixTime } from 'date-fns';
+import fetch from 'node-fetch';
+
+interface FetchCandlesOptions {
+  quote: string;
+  base: string;
+  startTime: Date;
+  endTime: Date;
+}
+
+// https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+// [
+//   1499040000000,      // Open time
+//   "0.01634790",       // Open
+//   "0.80000000",       // High
+//   "0.01575800",       // Low
+//   "0.01577100",       // Close
+//   "148976.11427815",  // Volume
+//   1499644799999,      // Close time
+//   "2434.19055334",    // Quote asset volume
+//   308,                // Number of trades
+//   "1756.87402397",    // Taker buy base asset volume
+//   "28.46694368",      // Taker buy quote asset volume
+//   "17928899.62484339" // Ignore.
+// ]
+
+export type BinanceEntry = Array<string | number>;
+export type BinanceResponse = BinanceEntry[];
+
+const fetchCandles = async (
+  options: FetchCandlesOptions,
+): Promise<BinanceResponse> => {
+  const startTime = getUnixTime(options.startTime);
+  const endTime = getUnixTime(options.endTime);
+  const symbol = `${options.base}${options.quote}`.toUpperCase();
+
+  try {
+    const response = await fetch(
+      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&startTime=${startTime}&endTime=${endTime}`,
+    );
+
+    const data = (await response.json()) as BinanceResponse;
+    if (Array.isArray(data) && data.length) {
+      return data;
+    }
+  } catch (e) {
+    console.error(`infra/binance/api error:`, e);
+
+    return [];
+  }
+
+  return [];
+};
+
+const BinanceAPI = {
+  fetchCandles,
+};
+
+export default BinanceAPI;
