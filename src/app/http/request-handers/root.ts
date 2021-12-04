@@ -1,4 +1,7 @@
+import { Exchange } from 'domain/exchanges';
 import { Request, Response } from 'express';
+
+const SUPPORTED_EXCHANGES = [Exchange.Binance, Exchange.FTX];
 
 export default (_req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
@@ -14,6 +17,7 @@ export default (_req: Request, res: Response) => {
           type: 'string',
           required: false,
           default: 'ftx',
+          values: SUPPORTED_EXCHANGES,
         },
       },
       examples: [
