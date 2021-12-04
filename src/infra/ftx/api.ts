@@ -1,3 +1,4 @@
+import { getUnixTime } from 'date-fns';
 import fetch from 'node-fetch';
 
 interface FetchCandlesOptions {
@@ -20,8 +21,8 @@ export type FTXResponse = FTXEntry[];
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<FTXResponse> => {
-  const startTime = Math.round(options.startTime.getTime() / 1000);
-  const endTime = Math.round(options.endTime.getTime() / 1000);
+  const startTime = getUnixTime(options.startTime);
+  const endTime = getUnixTime(options.endTime);
   const pair = `${options.base}/${options.quote}`.toLowerCase();
 
   try {
