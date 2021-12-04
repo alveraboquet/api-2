@@ -1,4 +1,3 @@
-import { getUnixTime } from 'date-fns';
 import fetch from 'node-fetch';
 
 interface FetchCandlesOptions {
@@ -30,8 +29,8 @@ export type BinanceResponse = BinanceEntry[];
 const fetchCandles = async (
   options: FetchCandlesOptions,
 ): Promise<BinanceResponse> => {
-  const startTime = getUnixTime(options.startTime);
-  const endTime = getUnixTime(options.endTime);
+  const startTime = options.startTime.getTime();
+  const endTime = options.endTime.getTime();
   const symbol = `${options.base}${options.quote}`.toUpperCase();
 
   try {
