@@ -2,6 +2,8 @@ import FtxRepository from 'app/candles/ftx-repository';
 import { Request, Response } from 'express';
 
 export default async (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'public, max-age=0');
+
   const pair = req.params.pair;
   if (!pair) {
     return res.status(400).json({ success: false, data: [] });
