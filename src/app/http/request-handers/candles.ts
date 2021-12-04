@@ -1,6 +1,7 @@
 import BinanceRepository from 'app/candles/binance-repository';
 import CoinbaseRepository from 'app/candles/coinbase-repository';
 import FtxRepository from 'app/candles/ftx-repository';
+import { Candle } from 'domain/candles';
 import { Exchange } from 'domain/exchanges';
 import { Request, Response } from 'express';
 
@@ -24,7 +25,7 @@ export default async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, meta: {}, data: [] });
   }
 
-  let candles = [];
+  let candles: Candle[] = [];
   switch (exchange) {
     case Exchange.FTX:
       candles = await FtxRepository.getCandles({ base, quote });
