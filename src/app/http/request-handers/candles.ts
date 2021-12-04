@@ -1,11 +1,17 @@
 import BinanceRepository from 'app/candles/binance-repository';
 import CoinbaseRepository from 'app/candles/coinbase-repository';
 import FtxRepository from 'app/candles/ftx-repository';
+import KucoinRepository from 'app/candles/kucoin-repository';
 import { Candle } from 'domain/candles';
 import { Exchange } from 'domain/exchanges';
 import { Request, Response } from 'express';
 
-const SUPPORTED_EXCHANGES = [Exchange.Binance, Exchange.Coinbase, Exchange.FTX];
+const SUPPORTED_EXCHANGES = [
+  Exchange.Binance,
+  Exchange.Coinbase,
+  Exchange.FTX,
+  Exchange.Kucoin,
+];
 
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
@@ -39,6 +45,9 @@ export default async (req: Request, res: Response) => {
       break;
     case Exchange.FTX:
       candles = await FtxRepository.getCandles({ base, quote });
+      break;
+    case Exchange.Kucoin:
+      candles = await KucoinRepository.getCandles({ base, quote });
       break;
   }
 

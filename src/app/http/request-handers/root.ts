@@ -10,6 +10,7 @@ export default (_req: Request, res: Response) => {
         '/candles/eth:usdt',
         '/candles/bnb:busd?exchange=binance',
         '/candles/mana:usdc?exchange=coinbase',
+        '/candles/kcs:usdt?exchange=kucoin',
       ],
     ]);
 };
