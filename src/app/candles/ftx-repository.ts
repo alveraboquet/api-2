@@ -22,9 +22,9 @@ export const mapFTXResponse = (response: FTXResponse | null) => {
 };
 
 class FTXCandleRepository implements CandleRepository {
-  getCandles = async ({ base, quote }: GetCandlesOptions) => {
+  getCandles = async ({ base, quote, limit }: GetCandlesOptions) => {
     const endTime = new Date();
-    const startTime = subHours(endTime, 48);
+    const startTime = subHours(endTime, limit);
 
     const data = await FTXAPI.fetchCandles({
       base,

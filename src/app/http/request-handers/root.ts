@@ -24,6 +24,11 @@ export default (_req: Request, res: Response) => {
           default: 'ftx',
           values: SUPPORTED_EXCHANGES,
         },
+        limit: {
+          type: 'number',
+          required: false,
+          default: 48,
+        },
       },
       examples: [
         '/candles/btc:usd',
