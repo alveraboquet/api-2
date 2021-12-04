@@ -17,5 +17,5 @@ export const mapKucoinResponse = (response: KucoinResponse | null) => {
     return [];
   }
 
-  return response.data.map(mapKucoinEntry);
+  return response.data.reverse().map(mapKucoinEntry);
 };
