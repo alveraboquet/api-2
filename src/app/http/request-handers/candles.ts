@@ -47,39 +47,47 @@ export default async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, meta: {}, data: [] });
   }
 
-  let candles: Candle[] = [];
+  const candles: Candle[] = [];
   switch (exchange) {
     case Exchange.Binance:
-      candles = await BinanceRepository.getCandles({
-        base,
-        quote,
-        limit,
-        resolution,
-      });
+      candles.push(
+        ...(await BinanceRepository.getCandles({
+          base,
+          quote,
+          limit,
+          resolution,
+        })),
+      );
       break;
     case Exchange.Coinbase:
-      candles = await CoinbaseRepository.getCandles({
-        base,
-        quote,
-        limit,
-        resolution,
-      });
+      candles.push(
+        ...(await CoinbaseRepository.getCandles({
+          base,
+          quote,
+          limit,
+          resolution,
+        })),
+      );
       break;
     case Exchange.FTX:
-      candles = await FtxRepository.getCandles({
-        base,
-        quote,
-        limit,
-        resolution,
-      });
+      candles.push(
+        ...(await FtxRepository.getCandles({
+          base,
+          quote,
+          limit,
+          resolution,
+        })),
+      );
       break;
     case Exchange.Kucoin:
-      candles = await KucoinRepository.getCandles({
-        base,
-        quote,
-        limit,
-        resolution,
-      });
+      candles.push(
+        ...(await KucoinRepository.getCandles({
+          base,
+          quote,
+          limit,
+          resolution,
+        })),
+      );
       break;
   }
 
