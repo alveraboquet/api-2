@@ -20,6 +20,10 @@ export default async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, meta: {}, data: [] });
   }
 
+  if (pair !== pair.toLowerCase()) {
+    return res.status(400).json({ success: false, meta: {}, data: [] });
+  }
+
   const [base, quote] = pair.split(':');
   if (!base || !quote) {
     return res.status(400).json({ success: false, meta: {}, data: [] });
