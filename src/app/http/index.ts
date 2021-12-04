@@ -20,6 +20,7 @@ app.use(cors());
 
 app.get('/', handlers.root);
 app.get('/candles/:pair', handlers.candles);
+app.get('/chart/:pair.jpg', handlers.candlestickChart);
 
 app.listen(PORT, HOST, () => {
   console.log(`Started server on http://${HOST}:${PORT} 🚀`);
