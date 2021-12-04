@@ -15,7 +15,7 @@ export type FTXEntry = {
   close: number;
 };
 
-export type FTXResponse = Array<FTXEntry>;
+export type FTXResponse = FTXEntry[];
 
 const fetchCandles = async (
   options: FetchCandlesOptions,
