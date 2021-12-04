@@ -5,7 +5,24 @@ export default (_req: Request, res: Response) => {
   res.status(200).json([
     {
       route: '/candles/:pair',
-      examples: ['/candles/btc:usd', '/candles/eth:usdt', '/candles/ltc:usdc'],
+      params: {
+        pair: {
+          type: 'string',
+          required: true,
+        },
+        exchange: {
+          type: 'string',
+          required: false,
+          default: 'ftx',
+        },
+      },
+      examples: [
+        '/candles/btc:usd',
+        '/candles/eth:usdt',
+        '/candles/bnb:busd?exchange=binance',
+        '/candles/ltc:usdc?exchange=binance',
+      ],
+      note: 'Only USD pairs are supported.',
     },
   ]);
 };
