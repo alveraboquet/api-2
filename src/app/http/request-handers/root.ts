@@ -6,12 +6,13 @@ export default (_req: Request, res: Response) => {
     ['/chart/btc:usd.jpg', '/chart/eth:usd.jpg', '/chart/ltc:usd.jpg'],
     [
       '/coins',
+      '/coins-top',
+      '/coins?filter=ltc',
+      '/coins?filter=gm',
       '/coins/btc',
       '/coins/bitcoin',
       '/coins/eth',
       '/coins/ethereum',
-      '/coins?filter=ltc',
-      '/coins?filter=gm',
     ],
     [
       '/candles/btc:usd',

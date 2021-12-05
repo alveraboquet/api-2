@@ -5,6 +5,8 @@ import CoingeckoAPI, {
   CoinGeckoListEntry,
   CoinGeckoListResponse,
   CoinGeckoResponse,
+  CoinGeckoTopListEntry,
+  CoinGeckoTopListResponse,
 } from 'infra/coingecko/api';
 
 const COINS_LIST_CACHE_HOURS = 6;
@@ -19,6 +21,32 @@ export const mapCoinGeckoListEntry = (entry: CoinGeckoListEntry) => {
 
 export const mapCoinGeckoListResponse = (response: CoinGeckoListResponse) => {
   return response.map(mapCoinGeckoListEntry);
+};
+
+export const mapCoinGeckoTopListEntry = (entry: CoinGeckoTopListEntry) => {
+  return {
+    id: entry.id as string,
+    symbol: entry.symbol as string,
+    name: entry.name as string,
+    quoteCurrency: 'usd',
+    rank: entry.market_cap_rank as number,
+    marketCap: entry.market_cap as number,
+    ath: entry.ath as number,
+    athDate: entry.ath_date ? new Date(entry.ath_date) : undefined,
+    price: entry.current_price as number,
+    percentageChange24h: entry.price_change_percentage_24h as number,
+    imageUrl: entry.image,
+  };
+};
+
+export const mapCoinGeckoTopListResponse = (
+  response: CoinGeckoTopListResponse | null,
+) => {
+  if (!response) {
+    return [];
+  }
+
+  return response.map(mapCoinGeckoTopListEntry);
 };
 
 export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
@@ -72,6 +100,32 @@ class CoingeckoCoinRepository implements CoinRepository {
     this.coinsLastUpdated = new Date();
 
     return this.coins;
+  };
+
+  public getCoinsTop = async () => {
+    const coinsAge = differenceInHours(new Date(), this.coinsLastUpdated);
+    if (this.coins.length && coinsAge < COINS_LIST_CACHE_HOURS) {
+      return this.coins;
+    }
+
+    const data = await CoingeckoAPI.fetchTopList();
+    const coins = Coin.fromArray(mapCoinGeckoTopListResponse(data));
+    if (!coins.length) {
+      return this.coins;
+    }
+
+    for (const coin of coins) {
+      const index = this.coins.findIndex((value) => value.id === coin.id);
+      if (index !== -1) {
+        continue;
+      }
+
+      this.coins.push(coin);
+    }
+
+    return this.coins
+      .sort((a, b) => ((a.rank as number) > (b.rank as number) ? 1 : -1))
+      .slice(0, 100);
   };
 
   public find = async (q: string): Promise<Coin | null> => {

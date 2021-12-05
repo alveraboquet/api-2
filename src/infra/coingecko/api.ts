@@ -23,6 +23,36 @@ const fetchList = async (): Promise<CoinGeckoListResponse> => {
   return [];
 };
 
+export type CoinGeckoTopListEntry = {
+  id: string;
+  symbol: string;
+  name: string;
+  market_cap_rank: number;
+  market_cap?: number;
+  ath?: number;
+  ath_date?: Date;
+  current_price?: number;
+  price_change_percentage_24h?: number;
+  image?: string;
+};
+export type CoinGeckoTopListResponse = CoinGeckoTopListEntry[];
+
+export const fetchTopList =
+  async (): Promise<CoinGeckoTopListResponse | null> => {
+    try {
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?` +
+          new URLSearchParams({
+            vs_currency: 'usd',
+            per_page: '250',
+          }),
+      );
+      return response.json();
+    } catch {
+      return null;
+    }
+  };
+
 export type CoinGeckoResponse = {
   id: string;
   symbol: string;
@@ -79,6 +109,7 @@ export const fetchById = async (
 
 const CoinGeckoAPI = {
   fetchList,
+  fetchTopList,
   fetchById,
 };
 

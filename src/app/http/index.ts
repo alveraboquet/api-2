@@ -23,6 +23,7 @@ app.use(cors());
 app.get('/', handlers.root);
 app.get('/candles/:pair', handlers.candles);
 app.get('/coins', handlers.coins);
+app.get('/coins-top', handlers.coinsTop);
 app.get('/coins/:q', handlers.coin);
 app.get('/coins/:id/image.png', handlers.coinImage);
 app.get('/chart/:pair.jpg', handlers.chart);
