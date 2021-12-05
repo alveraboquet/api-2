@@ -28,7 +28,9 @@ export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=60');
   return res.status(200).json({
     success: true,
-    meta: {},
+    meta: {
+      id: coin.id,
+    },
     data: coin,
   });
 };
