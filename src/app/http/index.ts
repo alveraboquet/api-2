@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import morgan from 'morgan';
 
 import handlers from './request-handers';
 
@@ -16,6 +17,7 @@ if (!PORT) {
 
 const app = express();
 
+app.use(morgan('short'));
 app.use(cors());
 
 app.get('/', handlers.root);
