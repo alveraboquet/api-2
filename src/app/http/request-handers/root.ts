@@ -13,14 +13,14 @@ export default (_req: Request, res: Response) => {
       '/coins?filter=ltc',
       '/coins?filter=gm',
     ],
-    ['/candles/btc:usd', '/candles/eth:usd', '/candles/ltc:usd'],
     [
+      '/candles/btc:usd',
+      '/candles/eth:usd',
+      '/candles/ltc:usd',
       '/candles/eth:usdc?exchange=coinbase',
       '/candles/bnb:busd?exchange=binance',
       '/candles/ftt:usdt?exchange=ftx',
       '/candles/kcs:usdt?exchange=kucoin',
-    ],
-    [
       '/candles/btc:usdt?exchange=coinbase&limit=1',
       '/candles/btc:usdt?exchange=coinbase&limit=2',
       '/candles/btc:usdt?exchange=coinbase&limit=3',
