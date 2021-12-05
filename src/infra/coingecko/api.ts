@@ -27,6 +27,17 @@ export type CoinGeckoResponse = {
   id: string;
   symbol: string;
   name: string;
+  market_data?: {
+    current_price?: {
+      usd?: number;
+    };
+    price_change_percentage_24h_in_currency?: {
+      usd?: number;
+    };
+    price_change_percentage_7d_in_currency?: {
+      usd?: number;
+    };
+  };
   links?: {
     homepage?: string[];
   };

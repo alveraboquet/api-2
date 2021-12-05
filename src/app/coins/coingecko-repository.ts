@@ -26,6 +26,11 @@ export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
     id: response.id as string,
     symbol: response.symbol as string,
     name: response.name as string,
+    priceInUsd: response?.market_data?.current_price?.usd as number,
+    percentageChange24h: response.market_data
+      ?.price_change_percentage_24h_in_currency?.usd as number,
+    percentageChange7d: response.market_data
+      ?.price_change_percentage_7d_in_currency?.usd as number,
     website: response.links?.homepage?.shift(),
     imageUrl: response.image?.large,
   };
