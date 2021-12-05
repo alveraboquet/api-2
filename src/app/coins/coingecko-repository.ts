@@ -59,6 +59,29 @@ class CoingeckoCoinRepository implements CoinRepository {
 
     return this.coins;
   };
+
+  find = async (q: string): Promise<Coin | null> => {
+    const coins = await this.getCoins();
+    if (!coins.length) {
+      return null;
+    }
+
+    const query = q.toLowerCase();
+    const coin = coins.find(
+      (value) =>
+        value.symbol.toLowerCase() === query ||
+        value.id.toLowerCase() === query ||
+        value.name.toLowerCase() === query,
+    );
+    if (!coin) {
+      console.log(`No coin found for q = ${q}`);
+      return null;
+    }
+
+    console.log(`Found coin ${coin.name} for q = ${q}`);
+
+    return coin;
+  };
 }
 
 export default new CoingeckoCoinRepository();

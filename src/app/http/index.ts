@@ -21,6 +21,7 @@ app.use(cors());
 app.get('/', handlers.root);
 app.get('/candles/:pair', handlers.candles);
 app.get('/coins', handlers.coins);
+app.get('/coins/:q', handlers.coin);
 app.get('/chart/:pair.jpg', handlers.chart);
 
 app.listen(PORT, HOST, () => {
