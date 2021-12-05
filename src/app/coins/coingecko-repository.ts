@@ -78,7 +78,7 @@ class CoingeckoCoinRepository implements CoinRepository {
       return null;
     }
 
-    console.log(`Found coin ${coin.name} for q = ${q}`);
+    console.log(`Found coin ${coin.name} (${coin.symbol}) for q = ${q}`);
 
     return coin;
   };
