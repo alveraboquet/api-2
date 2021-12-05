@@ -1,3 +1,5 @@
+import { getUnixTime } from 'date-fns';
+
 interface Data {
   id: string;
   symbol: string;
@@ -42,10 +44,36 @@ export class Coin {
     this.website = options.website || null;
   }
 
+  public get pullbackPercentage(): number | null {
+    if (!this.price) {
+      return null;
+    }
+
+    if (!this.ath) {
+      return null;
+    }
+
+    return Math.ceil((1 - this.price / this.ath) * 10000) / 100;
+  }
+
+  public get isAtAth(): boolean {
+    if (!this.pullbackPercentage) {
+      return false;
+    }
+
+    return this.pullbackPercentage <= 1;
+  }
+
   public toJSON = () => {
+    const athDate = this.isAtAth ? new Date() : this.athDate;
+    const imageUrl = this.imageUrl ? `/coins/${this.id}/image.png` : null;
+
     return {
       ...this,
-      imageUrl: this.imageUrl ? `/coins/${this.id}/image.png` : null,
+      pullbackPercentage: this.isAtAth ? 0 : this.pullbackPercentage,
+      athDate: athDate ? getUnixTime(athDate) : null,
+      isAtAth: this.isAtAth,
+      imageUrl,
     };
   };
 
