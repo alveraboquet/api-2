@@ -37,16 +37,25 @@ class CoingeckoCoinRepository implements CoinRepository {
 
     const data = await CoingeckoAPI.fetchList();
 
-    this.coins = Coin.fromArray(mapCoinGeckoListResponse(data));
-    if (!this.coins.length) {
-      return [];
+    const coins = Coin.fromArray(mapCoinGeckoListResponse(data));
+    if (!coins.length) {
+      return this.coins;
+    }
+
+    let newCoins = 0;
+    for (const coin of coins) {
+      const index = this.coins.findIndex((value) => value.id === coin.id);
+      if (index !== -1) {
+        continue;
+      }
+
+      this.coins.push(coin);
+      newCoins++;
     }
 
     this.coinsLastUpdated = new Date();
 
-    console.info(
-      `Fetched ${this.coins.length} new coins, caching for ${COINS_LIST_CACHE_HOURS} hours`,
-    );
+    console.info(`Fetched ${newCoins} new coins`);
 
     return this.coins;
   };
