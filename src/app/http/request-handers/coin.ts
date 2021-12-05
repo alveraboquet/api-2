@@ -21,6 +21,10 @@ export default async (req: Request, res: Response) => {
     });
   }
 
+  if (coin.id !== req.params.q) {
+    return res.redirect(`/coins/${coin.id}`);
+  }
+
   res.setHeader('Cache-Control', 'public, max-age=60');
   return res.status(200).json({
     success: true,
