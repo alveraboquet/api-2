@@ -18,6 +18,10 @@ export default async (req: Request, res: Response) => {
   return res.status(200).json({
     success: true,
     meta: {},
-    data: coins,
+    data: coins.map((coin) => ({
+      id: coin.id,
+      symbol: coin.symbol,
+      name: coin.name,
+    })),
   });
 };
