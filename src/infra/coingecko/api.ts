@@ -28,6 +28,15 @@ export type CoinGeckoResponse = {
   symbol: string;
   name: string;
   market_data?: {
+    market_cap?: {
+      usd?: number;
+    };
+    ath?: {
+      usd?: number;
+    };
+    ath_date?: {
+      usd?: Date;
+    };
     current_price?: {
       usd?: number;
     };

@@ -26,7 +26,13 @@ export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
     id: response.id as string,
     symbol: response.symbol as string,
     name: response.name as string,
-    priceInUsd: response?.market_data?.current_price?.usd as number,
+    quoteCurrency: 'usd',
+    marketCap: response?.market_data?.market_cap?.usd as number,
+    ath: response?.market_data?.ath?.usd as number,
+    athDate: response?.market_data?.ath_date?.usd
+      ? new Date(response?.market_data?.ath_date?.usd)
+      : undefined,
+    price: response?.market_data?.current_price?.usd as number,
     percentageChange24h: response.market_data
       ?.price_change_percentage_24h_in_currency?.usd as number,
     percentageChange7d: response.market_data
