@@ -49,11 +49,6 @@ class CoingeckoCoinRepository implements CoinRepository {
   public getCoins = async () => {
     const coinsAge = differenceInHours(new Date(), this.coinsLastUpdated);
     if (this.coins.length && coinsAge < COINS_LIST_CACHE_HOURS) {
-      console.info(
-        `Found ${this.coins.length} coins in cache, still valid for ${
-          COINS_LIST_CACHE_HOURS - coinsAge
-        } hours`,
-      );
       return this.coins;
     }
 
@@ -64,7 +59,6 @@ class CoingeckoCoinRepository implements CoinRepository {
       return this.coins;
     }
 
-    let newCoins = 0;
     for (const coin of coins) {
       const index = this.coins.findIndex((value) => value.id === coin.id);
       if (index !== -1) {
@@ -72,12 +66,9 @@ class CoingeckoCoinRepository implements CoinRepository {
       }
 
       this.coins.push(coin);
-      newCoins++;
     }
 
     this.coinsLastUpdated = new Date();
-
-    console.info(`Fetched ${newCoins} new coins`);
 
     return this.coins;
   };
@@ -96,11 +87,8 @@ class CoingeckoCoinRepository implements CoinRepository {
         value.name.toLowerCase() === query,
     );
     if (!coin) {
-      console.log(`No coin found for q = ${q}`);
       return null;
     }
-
-    console.log(`Found coin ${coin.name} (${coin.symbol}) for q = ${q}`);
 
     const index = this.coins.findIndex((value) => value.id === coin.id);
     await this.enrichCoinByIndex(index);
@@ -116,11 +104,8 @@ class CoingeckoCoinRepository implements CoinRepository {
 
     const coin = coins.find((value) => value.id === id);
     if (!coin) {
-      console.log(`No coin found for id = ${id}`);
       return null;
     }
-
-    console.log(`Found coin ${coin.name} (${coin.symbol}) for id = ${id}`);
 
     const index = this.coins.findIndex((value) => value.id === coin.id);
     await this.enrichCoinByIndex(index);
@@ -135,11 +120,9 @@ class CoingeckoCoinRepository implements CoinRepository {
       const data = await CoingeckoAPI.fetchById(coin.id);
       if (data) {
         this.coins[index] = new Coin(mapCoinGeckoCoin(data));
-
-        console.log(`Enriched data for coin ${coin.name} (${coin.symbol})`);
       }
     } catch {
-      console.log(
+      console.error(
         `Could not enrich data for coin ${coin.name} (${coin.symbol})`,
       );
     }
