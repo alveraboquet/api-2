@@ -10,8 +10,8 @@ export default (_req: Request, res: Response) => {
       '/coins/bitcoin',
       '/coins/eth',
       '/coins/ethereum',
-      '/coins/ltc',
-      '/coins/litecoin',
+      '/coins?filter=ltc',
+      '/coins?filter=gm',
     ],
     ['/candles/btc:usd', '/candles/eth:usd', '/candles/ltc:usd'],
     [
