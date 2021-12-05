@@ -1,11 +1,10 @@
 import CoingeckoCoinsRepository from 'app/coins/coingecko-repository';
 import { Request, Response } from 'express';
 
-export default async (req: Request, res: Response) => {
+export default async (_req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
 
   const coins = await CoingeckoCoinsRepository.getCoins();
-
   if (coins.length === 0) {
     return res.status(404).json({
       success: false,
