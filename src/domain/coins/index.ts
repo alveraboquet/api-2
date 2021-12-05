@@ -4,6 +4,7 @@ interface Data {
   id: string;
   symbol: string;
   name: string;
+  rank?: number;
   quoteCurrency?: string;
   price?: number;
   ath?: number;
@@ -19,6 +20,7 @@ export class Coin {
   public id: string;
   public symbol: string;
   public name: string;
+  public rank?: number | null;
   public quoteCurrency?: string;
   public price?: number | null;
   public ath?: number | null;
@@ -33,6 +35,7 @@ export class Coin {
     this.id = options.id;
     this.symbol = options.symbol;
     this.name = options.name;
+    this.rank = options.rank;
     this.quoteCurrency = options.quoteCurrency;
     this.price = options.price || null;
     this.ath = options.ath || null;

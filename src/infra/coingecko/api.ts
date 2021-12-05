@@ -27,6 +27,7 @@ export type CoinGeckoResponse = {
   id: string;
   symbol: string;
   name: string;
+  market_cap_rank: number;
   market_data?: {
     market_cap?: {
       usd?: number;

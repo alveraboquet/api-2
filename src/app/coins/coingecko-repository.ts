@@ -27,6 +27,7 @@ export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
     symbol: response.symbol as string,
     name: response.name as string,
     quoteCurrency: 'usd',
+    rank: response?.market_cap_rank as number,
     marketCap: response?.market_data?.market_cap?.usd as number,
     ath: response?.market_data?.ath?.usd as number,
     athDate: response?.market_data?.ath_date?.usd
