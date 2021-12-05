@@ -4,6 +4,7 @@ import { CoinRepository } from 'domain/coins/repository';
 import CoingeckoAPI, {
   CoinGeckoListEntry,
   CoinGeckoListResponse,
+  CoinGeckoResponse,
 } from 'infra/coingecko/api';
 
 const COINS_LIST_CACHE_HOURS = 6;
@@ -18,6 +19,16 @@ export const mapCoinGeckoListEntry = (entry: CoinGeckoListEntry) => {
 
 export const mapCoinGeckoListResponse = (response: CoinGeckoListResponse) => {
   return response.map(mapCoinGeckoListEntry);
+};
+
+export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
+  return {
+    id: response.id as string,
+    symbol: response.symbol as string,
+    name: response.name as string,
+    website: response.links?.homepage?.shift(),
+    imageUrl: response.image?.large,
+  };
 };
 
 class CoingeckoCoinRepository implements CoinRepository {
@@ -79,6 +90,14 @@ class CoingeckoCoinRepository implements CoinRepository {
     }
 
     console.log(`Found coin ${coin.name} (${coin.symbol}) for q = ${q}`);
+
+    const data = await CoingeckoAPI.fetchById(coin.id);
+    if (data) {
+      const index = this.coins.findIndex((value) => value.id === coin.id);
+      this.coins[index] = new Coin(mapCoinGeckoCoin(data));
+
+      return this.coins[index];
+    }
 
     return coin;
   };

@@ -23,8 +23,42 @@ const fetchList = async (): Promise<CoinGeckoListResponse> => {
   return [];
 };
 
+export type CoinGeckoResponse = {
+  id: string;
+  symbol: string;
+  name: string;
+  links?: {
+    homepage?: string[];
+  };
+  image?: {
+    large?: string;
+  };
+};
+
+export const fetchById = async (
+  id: string,
+): Promise<CoinGeckoResponse | null> => {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${id}?` +
+        new URLSearchParams({
+          localization: 'false',
+          tickers: 'false',
+          market_data: 'true',
+          community_data: 'false',
+          developer_data: 'false',
+          sparkline: 'false',
+        }),
+    );
+    return response.json();
+  } catch {
+    return null;
+  }
+};
+
 const CoinGeckoAPI = {
   fetchList,
+  fetchById,
 };
 
 export default CoinGeckoAPI;
