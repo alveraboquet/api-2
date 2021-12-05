@@ -1,6 +1,7 @@
 import candles from './candles';
 import chart from './chart';
 import coin from './coin';
+import coinImage from './coin-image';
 import coins from './coins';
 import root from './root';
 
@@ -9,5 +10,6 @@ export default {
   candles,
   coins,
   coin,
+  coinImage,
   chart,
 };
