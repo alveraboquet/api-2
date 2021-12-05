@@ -4,7 +4,15 @@ export default (_req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
   res.status(200).json([
     ['/chart/btc:usd.jpg', '/chart/eth:usd.jpg', '/chart/ltc:usd.jpg'],
-    ['/coins', '/coins/btc', '/coins/bitcoin', '/coins/eth', '/coins/ethereum'],
+    [
+      '/coins',
+      '/coins/btc',
+      '/coins/bitcoin',
+      '/coins/eth',
+      '/coins/ethereum',
+      '/coins/ltc',
+      '/coins/litecoin',
+    ],
     ['/candles/btc:usd', '/candles/eth:usd', '/candles/ltc:usd'],
     [
       '/candles/eth:usdc?exchange=coinbase',
