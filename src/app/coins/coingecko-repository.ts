@@ -40,7 +40,7 @@ class CoingeckoCoinRepository implements CoinRepository {
   public coins: Coin[] = [];
   private coinsLastUpdated: Date = new Date(0);
 
-  getCoins = async () => {
+  public getCoins = async () => {
     const coinsAge = differenceInHours(new Date(), this.coinsLastUpdated);
     if (this.coins.length && coinsAge < COINS_LIST_CACHE_HOURS) {
       console.info(
@@ -76,7 +76,7 @@ class CoingeckoCoinRepository implements CoinRepository {
     return this.coins;
   };
 
-  find = async (q: string): Promise<Coin | null> => {
+  public find = async (q: string): Promise<Coin | null> => {
     const coins = await this.getCoins();
     if (!coins.length) {
       return null;
@@ -96,15 +96,27 @@ class CoingeckoCoinRepository implements CoinRepository {
 
     console.log(`Found coin ${coin.name} (${coin.symbol}) for q = ${q}`);
 
-    const data = await CoingeckoAPI.fetchById(coin.id);
-    if (data) {
-      const index = this.coins.findIndex((value) => value.id === coin.id);
-      this.coins[index] = new Coin(mapCoinGeckoCoin(data));
+    const index = this.coins.findIndex((value) => value.id === coin.id);
+    await this.enrichCoinByIndex(index);
 
-      return this.coins[index];
+    return this.coins[index];
+  };
+
+  private enrichCoinByIndex = async (index: number) => {
+    const coin = this.coins[index];
+
+    try {
+      const data = await CoingeckoAPI.fetchById(coin.id);
+      if (data) {
+        this.coins[index] = new Coin(mapCoinGeckoCoin(data));
+
+        console.log(`Enriched data for coin ${coin.name} (${coin.symbol})`);
+      }
+    } catch {
+      console.log(
+        `Could not enrich data for coin ${coin.name} (${coin.symbol})`,
+      );
     }
-
-    return coin;
   };
 }
 
