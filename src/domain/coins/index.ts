@@ -33,7 +33,7 @@ export class Coin {
   public toJSON = () => {
     return {
       ...this,
-      imageUrl: `/coins/${this.id}/image.png`,
+      imageUrl: this.imageUrl ? `/coins/${this.id}/image.png` : null,
     };
   };
 
