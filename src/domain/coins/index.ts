@@ -44,6 +44,22 @@ export class Coin {
     this.website = options.website || null;
   }
 
+  public get pullback(): number | null {
+    if (!this.price) {
+      return null;
+    }
+
+    if (!this.ath) {
+      return null;
+    }
+
+    if (this.isAtAth) {
+      return 0;
+    }
+
+    return this.ath - this.price;
+  }
+
   public get pullbackPercentage(): number | null {
     if (!this.price) {
       return null;
@@ -71,6 +87,7 @@ export class Coin {
     return {
       ...this,
       pullbackPercentage: this.isAtAth ? 0 : this.pullbackPercentage,
+      pullback: this.pullback,
       athDate: athDate ? getUnixTime(athDate) : null,
       isAtAth: this.isAtAth,
       imageUrl,
