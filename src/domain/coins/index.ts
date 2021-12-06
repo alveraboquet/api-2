@@ -94,6 +94,7 @@ export class Coin {
       athDate: athDate ? getUnixTime(athDate) : null,
       isAtAth: this.isAtAth,
       imageUrl,
+      symbol: this.symbol.toLowerCase(),
     };
   };
 
