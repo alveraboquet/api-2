@@ -111,7 +111,9 @@ class CoingeckoCoinRepository implements CoinRepository {
     const data = await CoingeckoAPI.fetchTopList();
     const coins = Coin.fromArray(mapCoinGeckoTopListResponse(data));
     if (!coins.length) {
-      return this.coins;
+      return this.coins
+        .sort((a, b) => ((a.rank as number) > (b.rank as number) ? 1 : -1))
+        .slice(0, 100);
     }
 
     for (const coin of coins) {
