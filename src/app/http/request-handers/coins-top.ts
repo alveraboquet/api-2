@@ -27,7 +27,7 @@ export default async (req: Request, res: Response) => {
     );
   }
 
-  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.setHeader('Cache-Control', 'public, max-age=30');
   return res.status(200).json({
     success: true,
     meta,
