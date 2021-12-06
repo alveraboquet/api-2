@@ -13,6 +13,8 @@ export default (_req: Request, res: Response) => {
       '/coins/bitcoin',
       '/coins/eth',
       '/coins/ethereum',
+      '/exchange-flows/bitcoin',
+      '/exchange-flows/ethereum',
     ],
     [
       '/candles/btc:usd',

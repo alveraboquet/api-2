@@ -4,6 +4,7 @@ import coin from './coin';
 import coinImage from './coin-image';
 import coins from './coins';
 import coinsTop from './coins-top';
+import exchangeFlows from './exchange-flows';
 import root from './root';
 
 export default {
@@ -14,4 +15,5 @@ export default {
   coinsTop,
   coinImage,
   chart,
+  exchangeFlows,
 };

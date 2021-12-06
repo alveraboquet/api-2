@@ -27,6 +27,7 @@ app.get('/coins-top', handlers.coinsTop);
 app.get('/coins/:q', handlers.coin);
 app.get('/coins/:id/image.png', handlers.coinImage);
 app.get('/chart/:pair.jpg', handlers.chart);
+app.get('/exchange-flows/:coin', handlers.exchangeFlows);
 
 app.listen(PORT, HOST, () => {
   console.log(`Started server on http://${HOST}:${PORT} 🚀`);
