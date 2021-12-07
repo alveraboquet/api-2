@@ -103,11 +103,6 @@ class CoingeckoCoinRepository implements CoinRepository {
   };
 
   public getCoinsTop = async () => {
-    const coinsAge = differenceInHours(new Date(), this.coinsLastUpdated);
-    if (this.coins.length && coinsAge < COINS_LIST_CACHE_HOURS) {
-      return this.coins;
-    }
-
     const data = await CoingeckoAPI.fetchTopList();
     const coins = Coin.fromArray(mapCoinGeckoTopListResponse(data));
     if (!coins.length) {
