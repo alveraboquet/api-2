@@ -113,7 +113,8 @@ class CoingeckoCoinRepository implements CoinRepository {
 
     for (const coin of coins) {
       const index = this.coins.findIndex((value) => value.id === coin.id);
-      if (index !== -1) {
+      if (this.coins[index]) {
+        this.coins[index] = coin;
         continue;
       }
 
