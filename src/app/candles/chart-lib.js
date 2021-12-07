@@ -15,11 +15,11 @@ export default class CandlestickChart {
     this.context.font = `18px Hack Bold`;
     this.bgColor = '#fff9f4';
     this.gridColor = '#f5efeb';
-    this.textColor = '#000000';
-    this.wickColor = '#000000';
+    this.textColor = '#191818';
+    this.wickColor = '#191818';
     this.greenColor = '#fff9f4';
-    this.redColor = '#000000';
-    this.bodyStrokeColor = '#000000';
+    this.redColor = '#191818';
+    this.bodyStrokeColor = '#191818';
 
     this.context.lineWidth = 2;
     this.candleWidth = 4;
@@ -203,7 +203,7 @@ export default class CandlestickChart {
       );
     }
 
-    this.context.fillStyle = '#000';
+    this.context.fillStyle = '#191818';
     this.context.fillRect(0, 0, this.width, 58);
     this.context.fillStyle = '#fff9f4';
     this.context.fillText(this.title, 20, 35);
@@ -236,7 +236,7 @@ export default class CandlestickChart {
       this.yToPixelCoords(lastCandle.close) - 27,
       currentPriceWidth + 30,
       27,
-      '#000000',
+      '#191818',
     );
     this.context.fillStyle = '#fff9f4';
     this.context.fillText(
