@@ -105,20 +105,16 @@ class CoingeckoCoinRepository implements CoinRepository {
   public getCoinsTop = async () => {
     const data = await CoingeckoAPI.fetchTopList();
     const coins = Coin.fromArray(mapCoinGeckoTopListResponse(data));
-    if (!coins.length) {
-      return this.coins
-        .sort((a, b) => ((a.rank as number) > (b.rank as number) ? 1 : -1))
-        .slice(0, 100);
-    }
+    if (coins.length) {
+      for (const coin of coins) {
+        const index = this.coins.findIndex((value) => value.id === coin.id);
+        if (this.coins[index]) {
+          this.coins[index] = coin;
+          continue;
+        }
 
-    for (const coin of coins) {
-      const index = this.coins.findIndex((value) => value.id === coin.id);
-      if (this.coins[index]) {
-        this.coins[index] = coin;
-        continue;
+        this.coins.push(coin);
       }
-
-      this.coins.push(coin);
     }
 
     return this.coins
