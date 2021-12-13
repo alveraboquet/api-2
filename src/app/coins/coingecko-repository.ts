@@ -1,4 +1,3 @@
-import { differenceInHours } from 'date-fns';
 import { Coin } from 'domain/coins';
 import { CoinRepository } from 'domain/coins/repository';
 import CoingeckoAPI, {
@@ -8,8 +7,6 @@ import CoingeckoAPI, {
   CoinGeckoTopListEntry,
   CoinGeckoTopListResponse,
 } from 'infra/coingecko/api';
-
-const COINS_LIST_CACHE_HOURS = 6;
 
 export const mapCoinGeckoListEntry = (entry: CoinGeckoListEntry) => {
   return {
@@ -72,52 +69,24 @@ export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
 };
 
 class CoingeckoCoinRepository implements CoinRepository {
-  public coins: Coin[] = [];
-  private coinsLastUpdated: Date = new Date(0);
-
   public getCoins = async () => {
-    const coinsAge = differenceInHours(new Date(), this.coinsLastUpdated);
-    if (this.coins.length && coinsAge < COINS_LIST_CACHE_HOURS) {
-      return this.coins;
-    }
-
     const data = await CoingeckoAPI.fetchList();
-
     const coins = Coin.fromArray(mapCoinGeckoListResponse(data));
     if (!coins.length) {
-      return this.coins;
+      return [];
     }
 
-    for (const coin of coins) {
-      const index = this.coins.findIndex((value) => value.id === coin.id);
-      if (index !== -1) {
-        continue;
-      }
-
-      this.coins.push(coin);
-    }
-
-    this.coinsLastUpdated = new Date();
-
-    return this.coins;
+    return coins;
   };
 
   public getCoinsTop = async () => {
     const data = await CoingeckoAPI.fetchTopList();
     const coins = Coin.fromArray(mapCoinGeckoTopListResponse(data));
-    if (coins.length) {
-      for (const coin of coins) {
-        const index = this.coins.findIndex((value) => value.id === coin.id);
-        if (this.coins[index]) {
-          this.coins[index] = coin;
-          continue;
-        }
-
-        this.coins.push(coin);
-      }
+    if (!coins.length) {
+      return [];
     }
 
-    return this.coins
+    return coins
       .sort((a, b) => ((a.rank as number) > (b.rank as number) ? 1 : -1))
       .slice(0, 100);
   };
@@ -139,10 +108,7 @@ class CoingeckoCoinRepository implements CoinRepository {
       return null;
     }
 
-    const index = this.coins.findIndex((value) => value.id === coin.id);
-    await this.enrichCoinByIndex(index);
-
-    return this.coins[index];
+    return this.enrichCoin(coin);
   };
 
   public findById = async (id: string): Promise<Coin | null> => {
@@ -156,25 +122,22 @@ class CoingeckoCoinRepository implements CoinRepository {
       return null;
     }
 
-    const index = this.coins.findIndex((value) => value.id === coin.id);
-    await this.enrichCoinByIndex(index);
-
-    return this.coins[index];
+    return this.enrichCoin(coin);
   };
 
-  private enrichCoinByIndex = async (index: number) => {
-    const coin = this.coins[index];
-
+  private enrichCoin = async (coin: Coin) => {
     try {
       const data = await CoingeckoAPI.fetchById(coin.id);
       if (data) {
-        this.coins[index] = new Coin(mapCoinGeckoCoin(data));
+        return new Coin(mapCoinGeckoCoin(data));
       }
     } catch {
       console.error(
         `Could not enrich data for coin ${coin.name} (${coin.symbol})`,
       );
     }
+
+    return null;
   };
 }
 
