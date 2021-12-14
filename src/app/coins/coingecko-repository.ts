@@ -87,6 +87,7 @@ class CoingeckoCoinRepository implements CoinRepository {
     }
 
     return coins
+      .filter((coin) => coin.rank !== null)
       .sort((a, b) => ((a.rank as number) > (b.rank as number) ? 1 : -1))
       .slice(0, 100);
   };
