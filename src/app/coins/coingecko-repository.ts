@@ -99,17 +99,26 @@ class CoingeckoCoinRepository implements CoinRepository {
     }
 
     const query = q.toLowerCase();
-    const coin = coins.find(
-      (value) =>
-        value.symbol.toLowerCase() === query ||
-        value.id.toLowerCase() === query ||
-        value.name.toLowerCase() === query,
-    );
-    if (!coin) {
-      return null;
+    const coinById = coins.find((coin) => coin.id.toLowerCase() === query);
+    if (coinById) {
+      return this.enrichCoin(coinById);
     }
 
-    return this.enrichCoin(coin);
+    const coinBySymbol = coins.find(
+      (coin) => coin.symbol.toLowerCase() === query,
+    );
+    if (coinBySymbol) {
+      return this.enrichCoin(coinBySymbol);
+    }
+
+    const coinByName = coins.find(
+      (value) => value.name.toLowerCase() === query,
+    );
+    if (coinByName) {
+      return this.enrichCoin(coinByName);
+    }
+
+    return null;
   };
 
   public findById = async (id: string): Promise<Coin | null> => {
