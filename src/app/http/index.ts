@@ -30,6 +30,7 @@ app.get('/chart/:pair.jpg', handlers.chart);
 app.get('/exchange-flows/:coin', handlers.exchangeFlows);
 app.get('/leverage', handlers.leverage);
 app.get('/funding', handlers.funding);
+app.get('/funding/:id', handlers.fundingCoin);
 
 app.listen(PORT, HOST, () => {
   console.log(`Started server on http://${HOST}:${PORT} 🚀`);

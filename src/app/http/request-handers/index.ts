@@ -6,6 +6,7 @@ import coins from './coins';
 import coinsTop from './coins-top';
 import exchangeFlows from './exchange-flows';
 import funding from './funding';
+import fundingCoin from './funding-coin';
 import leverage from './leverage';
 import root from './root';
 
@@ -20,4 +21,5 @@ export default {
   exchangeFlows,
   leverage,
   funding,
+  fundingCoin,
 };
