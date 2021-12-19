@@ -17,6 +17,8 @@ export default (_req: Request, res: Response) => {
       '/exchange-flows/ethereum',
       '/leverage',
       '/funding',
+      '/funding/bitcoin',
+      '/funding/ethereum',
     ],
     [
       '/candles/btc:usd',
