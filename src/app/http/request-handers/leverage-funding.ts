@@ -1,11 +1,13 @@
+import CoingeckoCoinsRepository from 'app/coins/coingecko-repository';
 import { Request, Response } from 'express';
 import CoinGlassAPI from 'infra/coinglass/api';
 
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
 
+  const coins = await CoingeckoCoinsRepository.getCoins();
   const response = await CoinGlassAPI.fetchFundingRates();
-  if (!response) {
+  if (!response || !coins || !coins?.length) {
     return res.status(500).json({
       success: false,
       meta: {},
@@ -14,9 +16,15 @@ export default async (req: Request, res: Response) => {
   }
 
   const data: Record<string, Array<{ exchange: string; rate: number }>> = {};
+  for (const entry of response.data) {
+    const coin = coins.find(
+      (coin) => coin.symbol.toLowerCase() === entry.symbol.toLowerCase(),
+    );
+    if (!coin) {
+      continue;
+    }
 
-  for (const entry of response.data.slice(0, 10)) {
-    data[entry.symbol] = entry.uMarginList.map((item) => ({
+    data[coin.id] = entry.uMarginList.map((item) => ({
       exchange: item.exchangeName,
       rate: item.rate,
     }));
