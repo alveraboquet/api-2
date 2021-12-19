@@ -6,7 +6,7 @@ export default (_req: Request, res: Response) => {
     ['/chart/btc:usd.jpg', '/chart/eth:usd.jpg', '/chart/ltc:usd.jpg'],
     [
       '/coins',
-      '/coins-top',
+      '/coins/top',
       '/coins?filter=ltc',
       '/coins?filter=gm',
       '/coins/btc',
