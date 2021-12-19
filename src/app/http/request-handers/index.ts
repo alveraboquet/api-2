@@ -5,8 +5,8 @@ import coinImage from './coin-image';
 import coins from './coins';
 import coinsTop from './coins-top';
 import exchangeFlows from './exchange-flows';
+import funding from './funding';
 import leverage from './leverage';
-import leverageFunding from './leverage-funding';
 import root from './root';
 
 export default {
@@ -19,5 +19,5 @@ export default {
   chart,
   exchangeFlows,
   leverage,
-  leverageFunding,
+  funding,
 };
