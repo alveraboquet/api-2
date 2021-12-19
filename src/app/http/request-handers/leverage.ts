@@ -6,16 +6,24 @@ export default async (req: Request, res: Response) => {
 
   const response = await CoinGlassAPI.fetchStatistics();
   if (!response) {
-    return res.sendStatus(500);
+    return res.status(500).json({
+      success: false,
+      meta: {},
+      data: {},
+    });
   }
 
   res.setHeader('Cache-Control', 'public, max-age=60');
   res.status(200);
   res.json({
-    quoteCurrency: 'usd',
-    openInterest: response.data.openInterest,
-    liquidations24h: response.data.liquidationH24VolUsd,
-    longRate: response.data.longRate,
-    shortRate: response.data.shortRate,
+    success: true,
+    meta: {},
+    data: {
+      quoteCurrency: 'usd',
+      openInterest: response.data.openInterest,
+      liquidations24h: response.data.liquidationH24VolUsd,
+      longRate: response.data.longRate,
+      shortRate: response.data.shortRate,
+    },
   });
 };
