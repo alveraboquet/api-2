@@ -5,7 +5,7 @@ import CoinGlassAPI from 'infra/coinglass/api';
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
 
-  const coins = await CoingeckoCoinsRepository.getCoins();
+  const coins = await CoingeckoCoinsRepository.getCoinsTop();
   const response = await CoinGlassAPI.fetchFundingRates();
   if (!response || !coins || !coins?.length) {
     return res.status(500).json({
