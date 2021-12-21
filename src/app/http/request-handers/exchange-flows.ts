@@ -7,17 +7,23 @@ const mapExchangeFlowEntry = (entry: ExchangeFlowDataEntry) => {
   const balance24hAgo = entry.d1_balance;
   const balance7dAgo = entry.d7_balance;
   const balance30dAgo = entry.d30_balance;
-  const percentageChange24h = ((balance - balance24hAgo) / balance) * 100;
-  const percentageChange7d = ((balance - balance7dAgo) / balance) * 100;
-  const percentageChange30d = ((balance - balance30dAgo) / balance) * 100;
+  const diff24h = balance - balance24hAgo;
+  const diff7d = balance - balance7dAgo;
+  const diff30d = balance - balance30dAgo;
+  const percentageChange24h = (diff24h / balance) * 100;
+  const percentageChange7d = (diff7d / balance) * 100;
+  const percentageChange30d = (diff30d / balance) * 100;
 
   return {
     id,
     balance,
     balance24hAgo,
+    diff24h,
     percentageChange24h,
+    diff7d,
     balance7dAgo,
     percentageChange7d,
+    diff30d,
     balance30dAgo,
     percentageChange30d,
   };
