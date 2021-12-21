@@ -16,6 +16,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   HOST: ${{ secrets.HOST }}
   PORT: ${{ secrets.PORT }}
+  TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
 
 jobs:
   docker-image:
@@ -48,5 +49,6 @@ jobs:
           build-args: |
             HOST=${{ env.HOST }}
             PORT=${{ env.PORT }}
+            TWELVEDATA_API_KEY=${{ env.TWELVEDATA_API_KEY }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
