@@ -9,6 +9,7 @@ import funding from './funding';
 import fundingCoin from './funding-coin';
 import leverage from './leverage';
 import root from './root';
+import tradfi from './tradfi';
 
 export default {
   root,
@@ -22,4 +23,5 @@ export default {
   leverage,
   funding,
   fundingCoin,
+  tradfi,
 };

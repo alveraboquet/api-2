@@ -19,6 +19,7 @@ export default (_req: Request, res: Response) => {
       '/funding',
       '/funding/bitcoin',
       '/funding/ethereum',
+      '/tradfi',
     ],
     [
       '/candles/btc:usd',
