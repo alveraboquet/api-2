@@ -3,10 +3,10 @@ import ViewBaseAPI, { ExchangeFlowDataEntry } from 'infra/viewbase/api';
 
 const mapExchangeFlowEntry = (entry: ExchangeFlowDataEntry) => {
   const id = entry.url_id;
-  const balance = entry.current_balance;
-  const balance24hAgo = entry.d1_balance;
-  const balance7dAgo = entry.d7_balance;
-  const balance30dAgo = entry.d30_balance;
+  const balance = Math.round(entry.current_balance);
+  const balance24hAgo = Math.round(entry.d1_balance);
+  const balance7dAgo = Math.round(entry.d7_balance);
+  const balance30dAgo = Math.round(entry.d30_balance);
   const diff24h = balance - balance24hAgo;
   const diff7d = balance - balance7dAgo;
   const diff30d = balance - balance30dAgo;
