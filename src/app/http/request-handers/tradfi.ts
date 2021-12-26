@@ -1,22 +1,35 @@
 import { Request, Response } from 'express';
-import TwelvedataAPI from 'infra/twelvedata/api';
+import BloombergAPI from 'infra/bloomberg/api';
+
+const mapIdToSymbol = (id: string) => {
+  switch (id) {
+    case 'DM1:IND':
+      return 'DJI';
+    case 'ES1:IND':
+      return 'SPX';
+    case 'NQ1:IND':
+      return 'NDX';
+  }
+
+  return null;
+};
 
 export default async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'public, max-age=0');
 
-  const response = await TwelvedataAPI.fetchTradfiIndexes();
+  const response = await BloombergAPI.fetchUsStockFutures();
   if (!response) {
     return res.status(500).json({
       success: false,
       meta: {},
-      data: {},
+      data: null,
     });
   }
 
-  const data = Object.values(response).map((entry) => ({
-    symbol: entry.symbol,
-    percentageChange: parseFloat(entry.percent_change),
-    value: parseFloat(entry.close),
+  const data = response.fieldDataCollection.map((entry) => ({
+    symbol: mapIdToSymbol(entry.id),
+    percentageChange: entry.percentChange1Day,
+    value: entry.price,
   }));
 
   res.setHeader('Cache-Control', 'public, max-age=60');
