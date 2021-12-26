@@ -16,8 +16,19 @@ export const fetchUsStockFutures =
     try {
       const response = await fetch(
         'https://www.bloomberg.com/markets/api/comparison/data?securities=DM1%3AIND,ES1%3AIND,NQ1%3AIND',
+        {
+          headers: {
+            'user-agent':
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+          },
+        },
       );
-      return response.json();
+
+      try {
+        return response.json();
+      } catch {
+        return null;
+      }
     } catch {
       return null;
     }
