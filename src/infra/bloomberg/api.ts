@@ -25,9 +25,9 @@ export const fetchUsStockFutures =
       );
 
       try {
-        const json = await response.json();
+        const data = await response.text();
 
-        return json;
+        return JSON.parse(data);
       } catch {
         return null;
       }
