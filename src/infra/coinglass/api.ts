@@ -3,7 +3,9 @@ import fetch from 'node-fetch';
 export type CoinGlassStatisticsResponse = {
   data: {
     liquidationH24VolUsd: number;
+    lqH24Chain: number;
     openInterest: number;
+    oiH24Chain: number;
     longRate: number;
     shortRate: number;
   };

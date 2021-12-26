@@ -21,7 +21,9 @@ export default async (req: Request, res: Response) => {
     data: {
       quoteCurrency: 'usd',
       openInterest: response.data.openInterest,
+      openInterestChange: response.data.oiH24Chain,
       liquidations24h: response.data.liquidationH24VolUsd,
+      liquidations24hChange: response.data.lqH24Chain,
       longRate: response.data.longRate,
       shortRate: response.data.shortRate,
     },
