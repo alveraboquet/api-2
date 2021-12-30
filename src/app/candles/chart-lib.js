@@ -13,13 +13,13 @@ export default class CandlestickChart {
 
     this.title = options.title;
     this.context.font = `18px Hack Bold`;
-    this.bgColor = '#fff9f4';
-    this.gridColor = '#f5efeb';
-    this.textColor = '#191818';
-    this.wickColor = '#191818';
-    this.greenColor = '#fff9f4';
-    this.redColor = '#191818';
-    this.bodyStrokeColor = '#191818';
+    this.bgColor = '#ffffff';
+    this.gridColor = '#f0f0f0';
+    this.textColor = '#000000';
+    this.wickColor = '#000000';
+    this.greenColor = '#ffffff';
+    this.redColor = '#000000';
+    this.bodyStrokeColor = '#000000';
 
     this.context.lineWidth = 2;
     this.candleWidth = 4;
@@ -203,9 +203,9 @@ export default class CandlestickChart {
       );
     }
 
-    this.context.fillStyle = '#191818';
+    this.context.fillStyle = '#000000';
     this.context.fillRect(0, 0, this.width, 58);
-    this.context.fillStyle = '#fff9f4';
+    this.context.fillStyle = '#ffffff';
     this.context.fillText(this.title, 20, 35);
 
     const copyText = 'jinx.capital';
@@ -222,7 +222,7 @@ export default class CandlestickChart {
       ) / 100;
 
     const titleWidth = this.context.measureText(this.title).width + 20;
-    this.context.fillStyle = '#fff9f4';
+    this.context.fillStyle = '#ffffff';
     this.context.fillText(
       ` ${percent > 0 ? '+' : ''}${percent.toFixed(2)}%`,
       titleWidth,
@@ -236,9 +236,9 @@ export default class CandlestickChart {
       this.yToPixelCoords(lastCandle.close) - 27,
       currentPriceWidth + 30,
       27,
-      '#191818',
+      '#000000',
     );
-    this.context.fillStyle = '#fff9f4';
+    this.context.fillStyle = '#ffffff';
     this.context.fillText(
       currentPriceText,
       this.width - currentPriceWidth - 20,
