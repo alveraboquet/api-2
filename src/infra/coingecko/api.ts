@@ -32,6 +32,7 @@ export type CoinGeckoTopListEntry = {
   ath?: number;
   ath_date?: Date;
   current_price?: number;
+  price_change_24h?: number;
   price_change_percentage_24h?: number;
   image?: string;
 };
@@ -69,6 +70,9 @@ export type CoinGeckoResponse = {
       usd?: Date;
     };
     current_price?: {
+      usd?: number;
+    };
+    price_change_24h_in_currency?: {
       usd?: number;
     };
     price_change_percentage_24h_in_currency?: {

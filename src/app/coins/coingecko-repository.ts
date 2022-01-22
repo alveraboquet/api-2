@@ -31,6 +31,7 @@ export const mapCoinGeckoTopListEntry = (entry: CoinGeckoTopListEntry) => {
     ath: entry.ath as number,
     athDate: entry.ath_date ? new Date(entry.ath_date) : undefined,
     price: entry.current_price as number,
+    priceChange24h: entry.price_change_24h as number,
     percentageChange24h: entry.price_change_percentage_24h as number,
     imageUrl: entry.image,
   };
@@ -59,6 +60,8 @@ export const mapCoinGeckoCoin = (response: CoinGeckoResponse) => {
       ? new Date(response?.market_data?.ath_date?.usd)
       : undefined,
     price: response?.market_data?.current_price?.usd as number,
+    priceChange24h: response.market_data?.price_change_24h_in_currency
+      ?.usd as number,
     percentageChange24h: response.market_data
       ?.price_change_percentage_24h_in_currency?.usd as number,
     percentageChange7d: response.market_data

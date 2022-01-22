@@ -10,6 +10,7 @@ interface Data {
   ath?: number;
   athDate?: Date;
   marketCap?: number;
+  priceChange24h?: number;
   percentageChange24h?: number;
   percentageChange7d?: number;
   imageUrl?: string;
@@ -26,6 +27,7 @@ export class Coin {
   public ath?: number | null;
   public athDate?: Date | null;
   public marketCap?: number | null;
+  public priceChange24h?: number | null;
   public percentageChange24h?: number | null;
   public percentageChange7d?: number | null;
   public imageUrl?: string | null;
@@ -41,6 +43,7 @@ export class Coin {
     this.ath = options.ath || null;
     this.athDate = options.athDate || null;
     this.marketCap = options.marketCap || null;
+    this.priceChange24h = options.priceChange24h || null;
     this.percentageChange24h = options.percentageChange24h || null;
     this.percentageChange7d = options.percentageChange7d || null;
     this.imageUrl = options.imageUrl || null;
