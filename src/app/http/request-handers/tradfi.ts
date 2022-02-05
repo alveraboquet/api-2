@@ -26,7 +26,7 @@ export default async (req: Request, res: Response) => {
       value: entry.price,
     }));
 
-    res.setHeader('Cache-Control', 'public, max-age=60');
+    res.setHeader('Cache-Control', 'public, max-age=120');
     res.status(200);
     res.json({
       success: true,
@@ -51,7 +51,7 @@ export default async (req: Request, res: Response) => {
     value: parseFloat(entry.close),
   }));
 
-  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.setHeader('Cache-Control', 'public, max-age=120');
   res.status(200);
   res.json({
     success: true,

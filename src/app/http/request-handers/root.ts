@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 export default (_req: Request, res: Response) => {
-  res.setHeader('Cache-Control', 'public, max-age=30');
+  res.setHeader('Cache-Control', 'public, max-age=300');
   res.status(200).json([
     ['/chart/btc:usd.jpg', '/chart/eth:usd.jpg', '/chart/ltc:usd.jpg'],
     [

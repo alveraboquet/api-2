@@ -25,7 +25,7 @@ export default async (req: Request, res: Response) => {
     return res.redirect(`/coins/${coin.id}`);
   }
 
-  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.setHeader('Cache-Control', 'public, max-age=120');
   return res.status(200).json({
     success: true,
     meta: {

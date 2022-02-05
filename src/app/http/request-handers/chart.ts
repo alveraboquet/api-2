@@ -63,7 +63,7 @@ export default async (req: Request, res: Response) => {
   chart.draw();
 
   res.setHeader('Content-Type', 'image/jpeg');
-  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.setHeader('Cache-Control', 'public, max-age=120');
   res.status(200);
   canvas.createJPEGStream({ quality: 1, chromaSubsampling: false }).pipe(res);
 };

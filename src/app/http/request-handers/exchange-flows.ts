@@ -54,7 +54,7 @@ export default async (req: Request, res: Response) => {
       (entry) => entry.url_id === req.params.coin,
     );
     if (data) {
-      res.setHeader('Cache-Control', 'public, max-age=60');
+      res.setHeader('Cache-Control', 'public, max-age=120');
       return res.status(200).json({
         success: true,
         meta: {
@@ -71,7 +71,7 @@ export default async (req: Request, res: Response) => {
     });
   }
 
-  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.setHeader('Cache-Control', 'public, max-age=120');
   return res.status(200).json({
     success: true,
     meta: {},
